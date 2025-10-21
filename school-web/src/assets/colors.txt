@@ -1,0 +1,10 @@
+<!-- 
+| Color Name        | Hex Code | Usage Suggestions                         |
+| ----------------- | -------- | ----------------------------------------- |
+| **Primary Blue**  | #2A5D9F  | Headers, navbar background, buttons       |
+| **Bright Orange** | #F2994A  | Call-to-action buttons, highlights        |
+| **Soft Yellow**   | #F2C94C  | Background accents, hover effects         |
+| **Neutral Gray**  | #F4F6F8  | Page background, cards, containers        |
+| **Dark Charcoal** | #333333  | Text, icons, footer background            |
+| **White**         | #FFFFFF  | Text on colored backgrounds, clean spaces |
+-->
