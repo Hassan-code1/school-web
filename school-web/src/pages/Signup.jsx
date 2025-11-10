@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { 
   FaUserGraduate, 
   FaChalkboardTeacher, 
@@ -6,19 +8,25 @@ import {
   FaEnvelope, 
   FaLock, 
   FaIdCard,
-  FaSchool
+  FaSchool,
+  FaUser
 } from 'react-icons/fa';
 
 const ROLES = {
   STUDENT: 'student',
   TEACHER: 'teacher',
   STAFF: 'staff',
+  ADMIN: 'admin'
 };
+
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState(null);
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,13 +37,24 @@ const LoginForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setFormMessage(null);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log("Login Data:", formData);
-    setFormMessage({ type: 'success', text: 'Login successful! Redirecting...' });
-    
-    setIsSubmitting(false);
-  };
 
+    try {
+      const {userData} = await login(formData.email, formData.password);
+      if (userData.role === ROLES.STUDENT) {
+        navigate('/student');
+      } 
+      if (userData.role === ROLES.TEACHER) {
+        navigate('/teacher');
+      }
+      if (userData.role === ROLES.ADMIN) {
+        navigate('/admin');
+      }
+    } catch (error) {
+      setFormMessage({ type: 'error', text: error.message });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   const inputStyle = "w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500";
   const labelStyle = "block text-sm font-medium text-gray-700 mb-1";
 
@@ -74,9 +93,10 @@ const LoginForm = () => {
   );
 };
 
-const SignupForm = () => {
+const SignupForm = ({ onSignupSuccess }) => {
   const [selectedRole, setSelectedRole] = useState(null);
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     roleId: '',
     password: '',
@@ -84,6 +104,8 @@ const SignupForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState(null);
+
+  const { signup } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -100,15 +122,25 @@ const SignupForm = () => {
       setIsSubmitting(false);
       return;
     }
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log("Signup Data:", { role: selectedRole, ...formData });
-    
-    setFormMessage({ type: 'success', text: 'Account created successfully! You can now log in.' });
-    setSelectedRole(null);
-    setFormData({ email: '', roleId: '', password: '', confirmPassword: '' });
-    
-    setIsSubmitting(false);
+
+    try{
+      await signup(
+        formData.name,
+        formData.email,
+        formData.password,
+        selectedRole,
+        formData.roleId
+      );
+
+      setFormMessage({ type: 'success', text: 'Account created successfully! You can now log in.' });
+      setSelectedRole(null);
+      setFormData({ name: '', email: '', roleId: '', password: '', confirmPassword: '' });
+      onSignupSuccess();
+    } catch (error) {
+      setFormMessage({ type: 'error', text: error.message });
+    }finally{
+      setIsSubmitting(false);
+    }
   };
 
   let roleIdLabel = '';
@@ -145,6 +177,14 @@ const SignupForm = () => {
               Create <span className="capitalize text-blue-600">{selectedRole}</span> Account
             </h3>
           </div>
+
+          <div>
+            <label htmlFor="name" className={labelStyle}>Full Name</label>
+            <div className="relative">
+              <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={inputStyle} />
+            </div>
+          </div>
           <div>
             <label htmlFor="email" className={labelStyle}>Email Address</label>
             <div className="relative">
@@ -158,6 +198,7 @@ const SignupForm = () => {
             <div className="relative">
               <FaIdCard className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input type="text" name="roleId" id="roleId" value={formData.roleId} onChange={handleChange} placeholder={roleIdPlaceholder} required className={inputStyle} />
+              <p className='text-gray-400 text-[14px] text-center'>#for demo purpose use id as hassan123</p>
             </div>
           </div>
 
@@ -246,7 +287,7 @@ const AuthPage = () => {
           </nav>
 
           <div className="p-8 md:p-10">
-            {activeTab === 'login' ? <LoginForm /> : <SignupForm />}
+            {activeTab === 'login' ? <LoginForm /> : <SignupForm onSignupSuccess={()=> setActiveTab('login')} />}
           </div>
         </div>
       </div>

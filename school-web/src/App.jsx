@@ -1,24 +1,55 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import './App.css';
+import {Routes, Route, Navigate, Outlet } from "react-router-dom";
 import Home from "./pages/Home";
 import Admission from "./pages/Admission";
 import Fee from "./pages/Fee";
-import Signup from "./pages/Signup";
-// import StaffLogin from "./pages/StaffLogin";
+import AuthPage from "./pages/Signup";
+import StudentDashboard from './pages/StudentDashboard';
+import TeacherDashboard from './pages/TeacherDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import Navbar from "./components/navbar";
+import { useAuth } from './context/AuthContext.jsx';
+
+const ProtectedRoute = () => {
+  const { user } = useAuth();
+  
+  if (!user) {
+    return <Navigate to="/signup" replace />;
+  }
+  return <Outlet />;
+};
+
+const AuthRoute = () => {
+  const { user } = useAuth();
+  if (!user) {
+    return <AuthPage />;
+  }
+
+  if (user.role === 'student') return <Navigate to="/student" />;
+  if (user.role === 'teacher') return <Navigate to="/teacher" />;
+  if (user.role === 'admin') return <Navigate to="/admin" />;
+  
+  return <AuthPage />;
+};
+
 function App() {
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admissions" element={<Admission />} />
         <Route path="/fees" element={<Fee />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<AuthPage />} /> {/* <-- Use AuthRoute */}
+        
+        <Route element={<ProtectedRoute />}>
+          <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/teacher" element={<TeacherDashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
       </Routes>
-    </Router>
+    </>
   );
 }
 
 export default App;
-

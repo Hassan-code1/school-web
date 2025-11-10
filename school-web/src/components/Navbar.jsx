@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -10,13 +11,13 @@ const navItems = [
 ];
 
 const Navbar = () => {
+  const {user, logout} = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <nav className=" bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          
           <div className="flex-shrink-0">
             <Link to="/" className="text-2xl font-bold text-indigo-600">
               Shiv Jyoti School
@@ -33,12 +34,21 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
-              to="/signup"
-              className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150"
-            >
-              Sign Up
-            </Link>
+            {user ? (
+              <button
+                onClick={logout}
+                className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-150"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/signup"
+                className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150"
+              >
+                Sign Up
+              </Link>
+            )}
           </div>
 
           <div className="flex md:hidden">
@@ -57,12 +67,11 @@ const Navbar = () => {
               )}
             </button>
           </div>
-
         </div>
       </div>
 
-      <div 
-        className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`} 
+      <div
+        className={`${isMenuOpen ? "block" : "hidden"} md:hidden`}
         id="mobile-menu"
       >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -78,13 +87,21 @@ const Navbar = () => {
           ))}
         </div>
         <div className="border-t border-gray-200 px-5 py-3">
-          <Link
-            to="/signup"
-            onClick={() => setIsMenuOpen(false)}
-            className="block w-full text-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Sign Up
-          </Link>
+          {user ? (
+              <button
+                onClick={logout}
+                className=" inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-150"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/signup"
+                className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150"
+              >
+                Sign Up
+              </Link>
+            )}
         </div>
       </div>
     </nav>
