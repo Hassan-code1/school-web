@@ -267,9 +267,7 @@ const PostAnnouncementModal = ({ isOpen, onClose, onSave }) => {
 };
 
 
-// ===================================
-// MAIN ADMIN DASHBOARD COMPONENT
-// ===================================
+
 const AdminDashboard = () => {
   const [adminData, setAdminData] = useState(mockAdminData);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -299,7 +297,6 @@ const AdminDashboard = () => {
   };
   
   const handlePostAnnouncement = (newAnnouncement) => {
-    // This simulates adding the announcement to the list
     setAdminData(prev => ({
       ...prev,
       announcements: [newAnnouncement, ...prev.announcements]
@@ -439,8 +436,6 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-
-      {/* --- Modals (Rendered outside the layout) --- */}
       <AddUserModal
         isOpen={isUserModalOpen}
         onClose={() => setIsUserModalOpen(false)}

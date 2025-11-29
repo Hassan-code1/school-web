@@ -64,7 +64,7 @@ const LoginForm = () => {
         <label htmlFor="email" className={labelStyle}>Email Address</label>
         <div className="relative">
           <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className={inputStyle} />
+          <input autoComplete='off' type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className={inputStyle} />
         </div>
       </div>
       <div>
@@ -182,14 +182,14 @@ const SignupForm = ({ onSignupSuccess }) => {
             <label htmlFor="name" className={labelStyle}>Full Name</label>
             <div className="relative">
               <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={inputStyle} />
+              <input type="text" name="name" id="name" value={formData.name} autoComplete='off' onChange={handleChange} required className={inputStyle} />
             </div>
           </div>
           <div>
             <label htmlFor="email" className={labelStyle}>Email Address</label>
             <div className="relative">
               <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required className={inputStyle} />
+              <input type="email" name="email" id="email" value={formData.email} autoComplete='off' onChange={handleChange} required className={inputStyle} />
             </div>
           </div>
           
@@ -197,7 +197,7 @@ const SignupForm = ({ onSignupSuccess }) => {
             <label htmlFor="roleId" className={labelStyle}>{roleIdLabel}</label>
             <div className="relative">
               <FaIdCard className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="text" name="roleId" id="roleId" value={formData.roleId} onChange={handleChange} placeholder={roleIdPlaceholder} required className={inputStyle} />
+              <input type="text" name="roleId" id="roleId" value={formData.roleId} autoComplete='off' onChange={handleChange} placeholder={roleIdPlaceholder} required className={inputStyle} />
               <p className='text-gray-400 text-[14px] text-center'>#for demo purpose use id as hassan123</p>
             </div>
           </div>

@@ -18,7 +18,6 @@ const mockTeacherData = {
     department: 'Science',
     title: 'Senior Physics Teacher',
   },
-  // List of classes the teacher manages
   classes: [
     { classId: 'XI-A', name: 'Class XI - Section A', subject: 'Physics', studentCount: 30, averageGrade: 88, students: [/* ...list of student objects... */] },
     { classId: 'XI-B', name: 'Class XI - Section B', subject: 'Physics', studentCount: 32, averageGrade: 82, students: [/* ...list of student objects... */] },
@@ -147,9 +146,6 @@ const ProfileEditModal = ({ teacher, isOpen, onClose, onSave }) => {
   );
 };
 
-// ===================================
-// CREATE ASSIGNMENT MODAL COMPONENT
-// ===================================
 const CreateAssignmentModal = ({ classes, isOpen, onClose, onSave }) => {
   const initialFormState = {
     title: '',

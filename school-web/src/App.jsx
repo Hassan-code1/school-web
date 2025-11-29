@@ -8,6 +8,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Navbar from "./components/navbar";
+import About from "./pages/About";
 import { useAuth } from './context/AuthContext.jsx';
 
 const ProtectedRoute = () => {
@@ -41,7 +42,7 @@ function App() {
         <Route path="/admissions" element={<Admission />} />
         <Route path="/fees" element={<Fee />} />
         <Route path="/signup" element={<AuthPage />} /> {/* <-- Use AuthRoute */}
-        
+        <Route path='/about' element={<About/>}/>
         <Route element={<ProtectedRoute />}>
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
