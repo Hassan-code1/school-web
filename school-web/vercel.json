@@ -3,3 +3,14 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
+// # 1. Stop tracking the node_modules folder (this won't delete it from your PC)
+// git rm -r --cached school-web/node_modules
+
+// # 2. Update your .gitignore to make sure it doesn't happen again
+// # (Open your .gitignore file and make sure "node_modules" is listed on a new line)
+
+// # 3. Commit the removal
+// git commit -m "Remove node_modules from git"
+
+// # 4. Push the clean code to GitHub
+// git push

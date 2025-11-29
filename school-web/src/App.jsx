@@ -7,7 +7,7 @@ import AuthPage from "./pages/Signup";
 import StudentDashboard from './pages/StudentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
 import AdminDashboard from './pages/AdminDashboard';
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import { useAuth } from './context/AuthContext.jsx';
 
